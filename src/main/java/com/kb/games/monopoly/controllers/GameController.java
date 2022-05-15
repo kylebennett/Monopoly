@@ -45,11 +45,11 @@ public class GameController {
     return ResponseEntity.ok(roll);
   }
 
-  @GetMapping("/current-player")
-  public ResponseEntity<Player> getCurrentPlayer() {
-    Player currentPlayer = getActiveGame().getCurrentPlayer();
+  @GetMapping("/active-player")
+  public ResponseEntity<Player> getActivePlayer() {
+    Player activePlayer = getActiveGame().getActivePlayer();
 
-    return ResponseEntity.ok(currentPlayer);
+    return ResponseEntity.ok(activePlayer);
   }
 
   @PostMapping("/next-turn")
@@ -58,7 +58,7 @@ public class GameController {
     game.nextTurn();
     gameRepo.save(game);
 
-    return ResponseEntity.ok(game.getCurrentPlayer());
+    return ResponseEntity.ok(game.getActivePlayer());
   }
 
   private Game getActiveGame() {

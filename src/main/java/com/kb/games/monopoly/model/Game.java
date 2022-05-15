@@ -19,6 +19,7 @@ public class Game {
   @OneToMany
   private List<Player> playerList;
 
+  private int turnCount = 1;
   private int currentPlayerIndex = 0;
 
   public Game() {
@@ -31,12 +32,17 @@ public class Game {
   public void nextTurn() {
     if (currentPlayerIndex + 1 >= playerList.size()) {
       currentPlayerIndex = 0;
+      turnCount += 1;
     } else {
       currentPlayerIndex += 1;
     }
   }
 
-  public Player getCurrentPlayer() {
+  public Player getActivePlayer() {
     return playerList.get(currentPlayerIndex);
+  }
+
+  public int getTurnCount() {
+    return this.turnCount;
   }
 }

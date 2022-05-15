@@ -33,17 +33,26 @@ public class GameTest {
 
   @Test
   public void test_nextTurn_increasesCurrentPlayerIndex() {
-    assertThat(game.getCurrentPlayer()).isEqualTo(player1);
+    assertThat(game.getActivePlayer()).isEqualTo(player1);
     game.nextTurn();
-    assertThat(game.getCurrentPlayer()).isEqualTo(player2);
+    assertThat(game.getActivePlayer()).isEqualTo(player2);
   }
 
   @Test
   public void test_nextTurn_currentPlayerIndexLoopsBackTo0() {
-    assertThat(game.getCurrentPlayer()).isEqualTo(player1);
+    assertThat(game.getActivePlayer()).isEqualTo(player1);
     for (int i = 0; i < 4; i++) {
       game.nextTurn();
     }
-    assertThat(game.getCurrentPlayer()).isEqualTo(player1);
+    assertThat(game.getActivePlayer()).isEqualTo(player1);
+  }
+
+  @Test
+  public void test_nextTurn_turnCountIncreasesAfterLastPlayerTurn() {
+    assertThat(game.getTurnCount()).isEqualTo(1);
+    for (int i = 0; i < 4; i++) {
+      game.nextTurn();
+    }
+    assertThat(game.getTurnCount()).isEqualTo(2);
   }
 }
