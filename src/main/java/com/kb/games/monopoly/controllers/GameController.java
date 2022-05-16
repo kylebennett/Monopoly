@@ -1,13 +1,11 @@
 package com.kb.games.monopoly.controllers;
 
-import java.util.List;
-
 import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
-import com.kb.games.monopoly.repositories.GameRepository;
-import com.kb.games.monopoly.repositories.PlayerRepository;
+import com.kb.games.monopoly.services.GameService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,49 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/game")
 public class GameController {
 
-  private final GameRepository gameRepo;
-  private final PlayerRepository playerRepo;
-
-  public GameController(GameRepository gameRepo, PlayerRepository playerRepo) {
-    this.gameRepo = gameRepo;
-    this.playerRepo = playerRepo;
-  }
+  @Autowired
+  private GameService gameService;
 
   @PostMapping("/start")
   public ResponseEntity<Game> startGame() {
-
-    List<Player> players = playerRepo.findAll();
-
-    Game createdGame = new Game(players);
-    gameRepo.save(createdGame);
+    Game createdGame = gameService.startGame();
 
     return ResponseEntity.ok(createdGame);
   }
 
   @GetMapping("/roll")
   public ResponseEntity<DiceRoll> rolllDice() {
-    DiceRoll roll = new DiceRoll(2);
+    DiceRoll roll = gameService.rollDice();
 
     return ResponseEntity.ok(roll);
   }
 
   @GetMapping("/active-player")
   public ResponseEntity<Player> getActivePlayer() {
-    Player activePlayer = getActiveGame().getActivePlayer();
+    Player activePlayer = gameService.getActivePlayer();
 
     return ResponseEntity.ok(activePlayer);
   }
 
   @PostMapping("/next-turn")
   public ResponseEntity<Player> nextTurn() {
-    Game game = getActiveGame();
-    game.nextTurn();
-    gameRepo.save(game);
+    Player nextPlayer = gameService.nextTurn();
 
-    return ResponseEntity.ok(game.getActivePlayer());
-  }
-
-  private Game getActiveGame() {
-    return gameRepo.findAll().get(0);
+    return ResponseEntity.ok(nextPlayer);
   }
 }
