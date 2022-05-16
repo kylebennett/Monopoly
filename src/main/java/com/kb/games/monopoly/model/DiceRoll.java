@@ -15,6 +15,11 @@ public class DiceRoll {
     }
   }
 
+  /**
+   * Get the results of the rolls
+   *
+   * @return List<Integer>
+   */
   public List<Integer> getResults() {
     return this.results;
   }

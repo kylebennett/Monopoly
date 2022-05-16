@@ -20,6 +20,11 @@ public class GameService {
   @Autowired
   private PlayerRepository playerRepo;
 
+  /**
+   * Start a game. Get all current players in the repo and add them to the game.
+   *
+   * @return Game
+   */
   public Game startGame() {
     List<Player> players = playerRepo.findAll();
 
@@ -27,20 +32,41 @@ public class GameService {
     return gameRepo.save(createdGame);
   }
 
+  /**
+   * Roll 2 dice and return the results.
+   *
+   * @return DiceRoll
+   */
   public DiceRoll rollDice() {
     DiceRoll roll = new DiceRoll(2);
     return roll;
   }
 
+  /**
+   * Return the active player.
+   *
+   * @return Player
+   */
   public Player getActivePlayer() {
     Player activePlayer = getActiveGame().getActivePlayer();
     return activePlayer;
   }
 
+  /**
+   * Return the active Game
+   *
+   * @return Game
+   */
   public Game getActiveGame() {
     return gameRepo.findAll().get(0);
   }
 
+  /**
+   * Get the active game and progress to the next turn. Return the new active
+   * player.
+   * 
+   * @return Player
+   */
   public Player nextTurn() {
     Game game = getActiveGame();
     game.nextTurn();

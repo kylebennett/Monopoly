@@ -29,6 +29,10 @@ public class Game {
     this.playerList = players;
   }
 
+  /**
+   * Progress the game to the next turn. Set the next player as active. If all
+   * players have had a turn, first player is active and turn count increases
+   */
   public void nextTurn() {
     if (currentPlayerIndex + 1 >= playerList.size()) {
       currentPlayerIndex = 0;
@@ -38,10 +42,20 @@ public class Game {
     }
   }
 
+  /**
+   * Get the active player
+   *
+   * @return Player
+   */
   public Player getActivePlayer() {
     return playerList.get(currentPlayerIndex);
   }
 
+  /**
+   * Get the turn count
+   *
+   * @return int
+   */
   public int getTurnCount() {
     return this.turnCount;
   }

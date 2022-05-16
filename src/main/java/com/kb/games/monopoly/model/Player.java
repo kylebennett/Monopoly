@@ -24,10 +24,20 @@ public class Player {
     this.name = name;
   }
 
+  /**
+   * Get the ID
+   *
+   * @return Long
+   */
   public Long getId() {
     return this.id;
   }
 
+  /**
+   * Get the player's name
+   *
+   * @return String
+   */
   public String getName() {
     return this.name;
   }

@@ -20,6 +20,11 @@ public class GameController {
   @Autowired
   private GameService gameService;
 
+  /**
+   * Start a new Game
+   *
+   * @return ResponseEntity<Game>
+   */
   @PostMapping("/start")
   public ResponseEntity<Game> startGame() {
     Game createdGame = gameService.startGame();
@@ -27,6 +32,11 @@ public class GameController {
     return ResponseEntity.ok(createdGame);
   }
 
+  /**
+   * Roll 2 dice
+   *
+   * @return ResponseEntity<DiceRoll>
+   */
   @GetMapping("/roll")
   public ResponseEntity<DiceRoll> rolllDice() {
     DiceRoll roll = gameService.rollDice();
@@ -34,6 +44,11 @@ public class GameController {
     return ResponseEntity.ok(roll);
   }
 
+  /**
+   * Return the active player
+   *
+   * @return ResponseEntity<Player>
+   */
   @GetMapping("/active-player")
   public ResponseEntity<Player> getActivePlayer() {
     Player activePlayer = gameService.getActivePlayer();
@@ -41,6 +56,11 @@ public class GameController {
     return ResponseEntity.ok(activePlayer);
   }
 
+  /**
+   * Progress the game to the next turn
+   *
+   * @return ResponseEntity<Player>
+   */
   @PostMapping("/next-turn")
   public ResponseEntity<Player> nextTurn() {
     Player nextPlayer = gameService.nextTurn();

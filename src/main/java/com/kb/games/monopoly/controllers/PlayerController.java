@@ -23,16 +23,34 @@ public class PlayerController {
   @Autowired
   private PlayerService playerService;
 
+  /**
+   * Get all players
+   *
+   * @return List<Player>
+   */
   @GetMapping
   public List<Player> getPlayers() {
     return playerService.getAllPlayers();
   }
 
+  /**
+   * Get a specific player
+   *
+   * @param id
+   * @return Player
+   */
   @GetMapping("/{id}")
   public Player getPlayer(@PathVariable Long id) {
     return playerService.getPlayer(id).get();
   }
 
+  /**
+   * Create a new player
+   *
+   * @param player
+   * @return ResponseEntity<Player>
+   * @throws URISyntaxException
+   */
   @PostMapping("/create")
   public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
     Player savedPlayer = playerService.createPlayer(player);
