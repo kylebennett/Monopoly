@@ -27,19 +27,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GameServiceTest {
 
   @Autowired
-  public GameService gameService;
+  GameService gameService;
 
   @MockBean
-  public GameRepository gameRepoMock;
+  GameRepository gameRepoMock;
 
   @MockBean
-  public PlayerRepository playerRepoMock;
+  PlayerRepository playerRepoMock;
 
   @Mock
-  public Game gameMock;
+  Game gameMock;
 
   @Mock
-  public Player playerMock;
+  Player playerMock;
 
   @Test
   public void test_startGame_createsGame() throws Exception {

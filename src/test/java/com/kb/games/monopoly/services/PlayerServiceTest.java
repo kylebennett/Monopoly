@@ -25,10 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PlayerServiceTest {
 
   @Autowired
-  private PlayerService playerService;
+  PlayerService playerService;
 
   @MockBean
-  private PlayerRepository playerRepoMock;
+  PlayerRepository playerRepoMock;
 
   @Mock
   Player player1, player2;

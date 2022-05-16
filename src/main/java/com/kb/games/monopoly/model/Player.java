@@ -19,6 +19,11 @@ public class Player {
     super();
   }
 
+  public Player(String name) {
+    super();
+    this.name = name;
+  }
+
   public Long getId() {
     return this.id;
   }

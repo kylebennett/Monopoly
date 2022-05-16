@@ -1,6 +1,7 @@
 package com.kb.games.monopoly.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,20 +12,14 @@ import org.mockito.Mock;
 
 public class GameTest {
 
-  private Game game;
+  Game game;
 
   @Mock
-  private Player player1, player2, player3, player4;
+  Player player1, player2, player3, player4;
 
   @BeforeEach
   public void setUp() {
-
-    List<Player> playerList = new ArrayList<>();
-    playerList.add(player1);
-    playerList.add(player2);
-    playerList.add(player3);
-    playerList.add(player4);
-
+    List<Player> playerList = new ArrayList<>(Arrays.asList(player1, player2, player3, player4));
     game = new Game(playerList);
   }
 
