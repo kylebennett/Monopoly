@@ -5,8 +5,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import com.kb.games.monopoly.model.Player;
-import com.kb.games.monopoly.repositories.PlayerRepository;
+import com.kb.games.monopoly.services.PlayerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,25 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/players")
 public class PlayerController {
 
-  private final PlayerRepository playerRepo;
-
-  public PlayerController(PlayerRepository playerRepo) {
-    this.playerRepo = playerRepo;
-  }
+  @Autowired
+  private PlayerService playerService;
 
   @GetMapping
   public List<Player> getPlayers() {
-    return playerRepo.findAll();
+    return playerService.getAllPlayers();
   }
 
   @GetMapping("/{id}")
   public Player getPlayer(@PathVariable Long id) {
-    return playerRepo.findById(id).orElseThrow(RuntimeException::new);
+    return playerService.getPlayer(id).get();
   }
 
   @PostMapping("/create")
   public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
-    Player savedPlayer = playerRepo.save(player);
+    Player savedPlayer = playerService.createPlayer(player);
     return ResponseEntity.created(new URI("/players/" + savedPlayer.getId())).body(savedPlayer);
   }
 }
