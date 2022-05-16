@@ -6,16 +6,15 @@ import java.util.Optional;
 import com.kb.games.monopoly.model.Player;
 import com.kb.games.monopoly.repositories.PlayerRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlayerService {
 
-  @Autowired
   private PlayerRepository playerRepo;
 
-  public PlayerService() {
+  public PlayerService(PlayerRepository playerRepo) {
+    this.playerRepo = playerRepo;
   }
 
   public List<Player> getAllPlayers() {
