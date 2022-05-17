@@ -2,11 +2,16 @@ package com.kb.games.monopoly.controllers;
 
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
 import com.kb.games.monopoly.model.PlayerMove;
 import com.kb.games.monopoly.services.GameService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,15 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(GameController.class)
@@ -33,6 +34,9 @@ public class GameControllerTest {
 
   @Autowired
   MockMvc mvc;
+
+  @Autowired
+  ObjectMapper objectMapper;
 
   Game game;
   Player player1, player2;
@@ -52,11 +56,14 @@ public class GameControllerTest {
   @Test
   public void test_startGame_returnsGame() throws Exception {
     when(gameServiceMock.startGame()).thenReturn(game);
-    mvc.perform(post(URIConstants.GAME + URIConstants.START))
+    MvcResult mvcResult = mvc.perform(post(URIConstants.GAME + URIConstants.START))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.turnCount").value(1))
-        .andExpect(jsonPath("$.activePlayer.name").value(player1Name))
-        .andDo(print());
+        .andDo(print())
+        .andReturn();
+
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
+        objectMapper.writeValueAsString(game));
   }
 
   @Test
@@ -64,35 +71,41 @@ public class GameControllerTest {
     PlayerMove playerMove = new PlayerMove(player1, new DiceRoll(2));
     when(gameServiceMock.movePlayer()).thenReturn(playerMove);
 
-    mvc.perform(post(URIConstants.GAME + URIConstants.MOVE))
+    MvcResult mvcResult = mvc.perform(post(URIConstants.GAME + URIConstants.MOVE))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.player.name").value(equalTo(player1.getName())))
-        .andExpect(jsonPath("$.roll.results").value(hasSize(2)))
-        .andExpect(jsonPath("$.roll.results.[0]").value(greaterThanOrEqualTo(1)))
-        .andExpect(jsonPath("$.roll.results.[0]").value(lessThanOrEqualTo(6)))
-        .andExpect(jsonPath("$.roll.results.[1]").value(greaterThanOrEqualTo(1)))
-        .andExpect(jsonPath("$.roll.results.[1]").value(lessThanOrEqualTo(6)))
-        .andExpect(jsonPath("$.roll.total").exists())
-        .andDo(print());
+        .andDo(print())
+        .andReturn();
+
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
+        objectMapper.writeValueAsString(playerMove));
   }
 
   @Test
   public void test_getActivePlayer_returnsPlayer() throws Exception {
     when(gameServiceMock.getActivePlayer()).thenReturn(player1);
 
-    mvc.perform(get(URIConstants.GAME + URIConstants.ACTIVE_PLAYER))
+    MvcResult mvcResult = mvc.perform(get(URIConstants.GAME + URIConstants.ACTIVE_PLAYER))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name").value(player1.getName()))
-        .andDo(print());
+        .andDo(print())
+        .andReturn();
+
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
+        objectMapper.writeValueAsString(player1));
   }
 
   @Test
   public void test_nextTurn_returnsNextPlayer() throws Exception {
     when(gameServiceMock.nextTurn()).thenReturn(player1);
 
-    mvc.perform(post(URIConstants.GAME + URIConstants.NEXT_TURN))
+    MvcResult mvcResult = mvc.perform(post(URIConstants.GAME + URIConstants.NEXT_TURN))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name").value(player1.getName()))
-        .andDo(print());
+        .andDo(print())
+        .andReturn();
+
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
+        objectMapper.writeValueAsString(player1));
   }
 }
