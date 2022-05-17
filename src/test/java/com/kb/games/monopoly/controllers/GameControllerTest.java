@@ -2,8 +2,10 @@ package com.kb.games.monopoly.controllers;
 
 import static org.mockito.Mockito.when;
 
+import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
+import com.kb.games.monopoly.model.PlayerMove;
 import com.kb.games.monopoly.services.GameService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -55,16 +57,19 @@ public class GameControllerTest {
   }
 
   @Test
-  public void test_rollDice_returnsDiceRoll() throws Exception {
-    when(gameServiceMock.rollDice()).thenCallRealMethod();
+  public void test_move_returnsPlayerMove() throws Exception {
+    PlayerMove playerMove = new PlayerMove(player1, new DiceRoll(2));
+    when(gameServiceMock.movePlayer()).thenReturn(playerMove);
 
-    mvc.perform(get("/game/roll"))
+    mvc.perform(post("/game/move"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.results").value(hasSize(2)))
-        .andExpect(jsonPath("$.results.[0]").value(greaterThanOrEqualTo(1)))
-        .andExpect(jsonPath("$.results.[0]").value(lessThanOrEqualTo(6)))
-        .andExpect(jsonPath("$.results.[1]").value(greaterThanOrEqualTo(1)))
-        .andExpect(jsonPath("$.results.[1]").value(lessThanOrEqualTo(6)))
+        .andExpect(jsonPath("$.player.name").value(equalTo(player1.getName())))
+        .andExpect(jsonPath("$.roll.results").value(hasSize(2)))
+        .andExpect(jsonPath("$.roll.results.[0]").value(greaterThanOrEqualTo(1)))
+        .andExpect(jsonPath("$.roll.results.[0]").value(lessThanOrEqualTo(6)))
+        .andExpect(jsonPath("$.roll.results.[1]").value(greaterThanOrEqualTo(1)))
+        .andExpect(jsonPath("$.roll.results.[1]").value(lessThanOrEqualTo(6)))
+        .andExpect(jsonPath("$.roll.total").exists())
         .andDo(print());
   }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
+import com.kb.games.monopoly.model.PlayerMove;
 import com.kb.games.monopoly.repositories.GameRepository;
 import com.kb.games.monopoly.repositories.PlayerRepository;
 
@@ -20,6 +21,9 @@ public class GameService {
   @Autowired
   private PlayerRepository playerRepo;
 
+  @Autowired
+  private DiceService diceService;
+
   /**
    * Start a game. Get all current players in the repo and add them to the game.
    *
@@ -33,13 +37,21 @@ public class GameService {
   }
 
   /**
-   * Roll 2 dice and return the results.
+   * Roll 2 dice, move the active player to the new position and save.
    *
    * @return DiceRoll
    */
-  public DiceRoll rollDice() {
-    DiceRoll roll = new DiceRoll(2);
-    return roll;
+  public PlayerMove movePlayer() {
+    DiceRoll roll = diceService.rollDice(2);
+    Player player = getActivePlayer();
+    int newPosition = player.getBoardLocation() + roll.getTotal();
+
+    player.setBoardLocation(newPosition);
+    playerRepo.save(player);
+
+    PlayerMove move = new PlayerMove(player, roll);
+
+    return move;
   }
 
   /**
@@ -64,7 +76,7 @@ public class GameService {
   /**
    * Get the active game and progress to the next turn. Return the new active
    * player.
-   * 
+   *
    * @return Player
    */
   public Player nextTurn() {

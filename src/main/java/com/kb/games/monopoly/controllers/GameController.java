@@ -1,8 +1,8 @@
 package com.kb.games.monopoly.controllers;
 
-import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
+import com.kb.games.monopoly.model.PlayerMove;
 import com.kb.games.monopoly.services.GameService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +33,15 @@ public class GameController {
   }
 
   /**
-   * Roll 2 dice
+   * Roll 2 Dice, move the current player to the new location
    *
-   * @return ResponseEntity<DiceRoll>
+   * @return ResponseEntity<PlayerMove>
    */
-  @GetMapping("/roll")
-  public ResponseEntity<DiceRoll> rolllDice() {
-    DiceRoll roll = gameService.rollDice();
+  @PostMapping("/move")
+  public ResponseEntity<PlayerMove> rollDice() {
+    PlayerMove move = gameService.movePlayer();
 
-    return ResponseEntity.ok(roll);
+    return ResponseEntity.ok(move);
   }
 
   /**

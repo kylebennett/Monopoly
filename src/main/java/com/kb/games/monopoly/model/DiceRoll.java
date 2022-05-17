@@ -23,4 +23,8 @@ public class DiceRoll {
   public List<Integer> getResults() {
     return this.results;
   }
+
+  public int getTotal() {
+    return results.stream().mapToInt(Integer::intValue).sum();
+  }
 }

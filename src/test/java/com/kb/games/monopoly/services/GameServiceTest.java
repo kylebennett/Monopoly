@@ -1,6 +1,7 @@
 package com.kb.games.monopoly.services;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +13,7 @@ import java.util.List;
 import com.kb.games.monopoly.model.DiceRoll;
 import com.kb.games.monopoly.model.Game;
 import com.kb.games.monopoly.model.Player;
+import com.kb.games.monopoly.model.PlayerMove;
 import com.kb.games.monopoly.repositories.GameRepository;
 import com.kb.games.monopoly.repositories.PlayerRepository;
 
@@ -30,6 +32,9 @@ public class GameServiceTest {
   GameService gameService;
 
   @MockBean
+  DiceService diceServiceMock;
+
+  @MockBean
   GameRepository gameRepoMock;
 
   @MockBean
@@ -37,6 +42,9 @@ public class GameServiceTest {
 
   @Mock
   Game gameMock;
+
+  @Mock
+  DiceRoll diceRollMock;
 
   @Mock
   Player playerMock;
@@ -51,8 +59,19 @@ public class GameServiceTest {
   }
 
   @Test
-  public void test_rollDice_returnsDiceRoll() throws Exception {
-    assertThat(gameService.rollDice()).isInstanceOf(DiceRoll.class);
+  public void test_movePlayer_RollsDiceMovesPlayerSavesPlayer() {
+    when(diceServiceMock.rollDice(anyInt())).thenReturn(diceRollMock);
+    when(diceRollMock.getTotal()).thenReturn(10);
+    when(gameRepoMock.findAll()).thenReturn(Arrays.asList(gameMock));
+    when(gameMock.getActivePlayer()).thenReturn(playerMock);
+    when(playerMock.getBoardLocation()).thenReturn(2);
+
+    PlayerMove move = gameService.movePlayer();
+    assertThat(move.getPlayer()).isEqualTo(playerMock);
+    assertThat(move.getRoll()).isEqualTo(diceRollMock);
+
+    verify(playerMock).setBoardLocation(12);
+    verify(playerRepoMock).save(playerMock);
   }
 
   @Test

@@ -14,6 +14,15 @@ public class Player {
   private Long id;
 
   private String name;
+  private int boardLocation = 0;
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   public Player() {
     super();
@@ -40,5 +49,23 @@ public class Player {
    */
   public String getName() {
     return this.name;
+  }
+
+  /**
+   * Get the index of the space the player is currently on.
+   * 
+   * @return int
+   */
+  public int getBoardLocation() {
+    return this.boardLocation;
+  }
+
+  /**
+   * Set the index of the space the player is on.
+   *
+   * @param boardLocation
+   */
+  public void setBoardLocation(int boardLocation) {
+    this.boardLocation = boardLocation;
   }
 }
