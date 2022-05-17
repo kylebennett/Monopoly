@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping(URIConstants.GAME)
 public class GameController {
 
   @Autowired
@@ -25,7 +25,7 @@ public class GameController {
    *
    * @return ResponseEntity<Game>
    */
-  @PostMapping("/start")
+  @PostMapping(URIConstants.START)
   public ResponseEntity<Game> startGame() {
     Game createdGame = gameService.startGame();
 
@@ -37,7 +37,7 @@ public class GameController {
    *
    * @return ResponseEntity<PlayerMove>
    */
-  @PostMapping("/move")
+  @PostMapping(URIConstants.MOVE)
   public ResponseEntity<PlayerMove> rollDice() {
     PlayerMove move = gameService.movePlayer();
 
@@ -49,7 +49,7 @@ public class GameController {
    *
    * @return ResponseEntity<Player>
    */
-  @GetMapping("/active-player")
+  @GetMapping(URIConstants.ACTIVE_PLAYER)
   public ResponseEntity<Player> getActivePlayer() {
     Player activePlayer = gameService.getActivePlayer();
 
@@ -61,7 +61,7 @@ public class GameController {
    *
    * @return ResponseEntity<Player>
    */
-  @PostMapping("/next-turn")
+  @PostMapping(URIConstants.NEXT_TURN)
   public ResponseEntity<Player> nextTurn() {
     Player nextPlayer = gameService.nextTurn();
 

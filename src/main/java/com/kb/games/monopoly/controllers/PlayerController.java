@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/players")
+@RequestMapping(URIConstants.PLAYERS)
 public class PlayerController {
 
   @Autowired
@@ -51,9 +51,9 @@ public class PlayerController {
    * @return ResponseEntity<Player>
    * @throws URISyntaxException
    */
-  @PostMapping("/create")
+  @PostMapping(URIConstants.CREATE)
   public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
     Player savedPlayer = playerService.createPlayer(player);
-    return ResponseEntity.created(new URI("/players/" + savedPlayer.getId())).body(savedPlayer);
+    return ResponseEntity.created(new URI(URIConstants.PLAYERS + "/" + savedPlayer.getId())).body(savedPlayer);
   }
 }

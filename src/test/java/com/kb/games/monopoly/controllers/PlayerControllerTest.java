@@ -55,10 +55,12 @@ public class PlayerControllerTest {
   public void test_getAllPlayers_returnsPlayerList() throws Exception {
     when(playerServiceMock.getAllPlayers()).thenReturn(playerList);
 
-    mvc.perform(get("/players"))
+    mvc.perform(get(URIConstants.PLAYERS))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").value(hasSize(3)))
         .andExpect(jsonPath("$.[0].name").value(equalTo(player1.getName())))
+        .andExpect(jsonPath("$.[1].name").value(equalTo(player2.getName())))
+        .andExpect(jsonPath("$.[2].name").value(equalTo(player3.getName())))
         .andDo(print());
   }
 
@@ -66,7 +68,7 @@ public class PlayerControllerTest {
   public void test_getPlayer_ReturnsSpecificPlayer() throws Exception {
     when(playerServiceMock.getPlayer(eq(1l))).thenReturn(Optional.of(player1));
 
-    mvc.perform(get("/players/1"))
+    mvc.perform(get(URIConstants.PLAYERS + "/1"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.name").value(equalTo(player1.getName())))
         .andDo(print());
@@ -77,7 +79,7 @@ public class PlayerControllerTest {
     when(playerServiceMock.createPlayer(any(Player.class))).thenReturn(player1);
 
     mvc.perform(
-        post("/players/create")
+        post(URIConstants.PLAYERS + URIConstants.CREATE)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(objectMapper.writeValueAsString(player1)))
         .andExpect(status().isCreated())
