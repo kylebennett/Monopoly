@@ -11,4 +11,6 @@ public class URIConstants {
   public static final String PLAYERS = "/players";
   public static final String CREATE = "/create";
 
+  public static final String BOARD = "/board";
+
 }
