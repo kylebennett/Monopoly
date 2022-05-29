@@ -1,7 +1,6 @@
 package com.kb.games.monopoly.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,20 +17,24 @@ public class Board {
   private Long id;
 
   @OneToMany
-  private Map<Integer, Space> spaces;
+  private List<Space> spaces;
 
   public Board() {
   }
 
-  public void loadSpaces() {
-    spaces = new HashMap<>();
-
-    for (int i = 0; i < 40; i++) {
-      spaces.put(i, new Space("space " + i));
-    }
-  }
-
   public Space getSpace(int location) {
     return spaces.get(location);
+  }
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public List<Space> getSpaces() {
+    return this.spaces;
+  }
+
+  public void setSpaces(List<Space> spaces) {
+    this.spaces = spaces;
   }
 }

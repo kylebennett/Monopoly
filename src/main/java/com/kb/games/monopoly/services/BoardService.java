@@ -12,14 +12,7 @@ public class BoardService {
   @Autowired
   BoardRepository boardRepo;
 
-  @Autowired
-  SpaceService spaceService;
-
   public Board getBoard() {
     return boardRepo.findAll().get(0);
-  }
-
-  public void loadBoard() {
-
   }
 }
