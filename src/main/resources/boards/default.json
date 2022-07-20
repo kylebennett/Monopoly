@@ -1,0 +1,16 @@
+[
+  {
+    "type" : "CORNER",
+    "space": {
+      "name" : "Go"
+    }
+  },
+  {
+    "type" : "STREET",
+    "space" : {
+      "name" : "Old Kent Road",
+      "value" : 60,
+      "Colour" : "BROWN"
+    }
+  }
+]
