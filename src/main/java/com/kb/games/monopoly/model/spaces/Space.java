@@ -1,4 +1,4 @@
-package com.kb.games.monopoly.model;
+package com.kb.games.monopoly.model.spaces;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "spaces")
-public class Space {
+public abstract class Space {
 
   @Id
   @GeneratedValue

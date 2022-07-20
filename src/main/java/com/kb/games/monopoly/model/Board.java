@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.kb.games.monopoly.model.spaces.Space;
+
 @Entity
 @Table(name = "board")
 public class Board {

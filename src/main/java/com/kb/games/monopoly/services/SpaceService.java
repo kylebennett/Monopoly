@@ -2,7 +2,7 @@ package com.kb.games.monopoly.services;
 
 import java.util.List;
 
-import com.kb.games.monopoly.model.Space;
+import com.kb.games.monopoly.model.spaces.Space;
 import com.kb.games.monopoly.repositories.SpaceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

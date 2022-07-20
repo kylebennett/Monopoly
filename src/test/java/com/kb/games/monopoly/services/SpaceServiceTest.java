@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
-import com.kb.games.monopoly.model.Space;
+import com.kb.games.monopoly.model.spaces.Space;
 import com.kb.games.monopoly.repositories.SpaceRepository;
 
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,10 @@
 package com.kb.games.monopoly.model;
 
 import java.util.Arrays;
+
+import com.kb.games.monopoly.model.spaces.CornerSpace;
+import com.kb.games.monopoly.model.spaces.Space;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +20,9 @@ public class BoardTest {
   public void setup() {
     board = new Board();
 
-    space1 = new Space("Space 1");
-    space2 = new Space("Space 2");
-    space3 = new Space("Space 3");
+    space1 = new CornerSpace("Space 1");
+    space2 = new CornerSpace("Space 2");
+    space3 = new CornerSpace("Space 3");
 
     board.setSpaces(Arrays.asList(space1, space2, space3));
   }

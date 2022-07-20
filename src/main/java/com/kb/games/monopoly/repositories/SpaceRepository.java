@@ -1,6 +1,6 @@
 package com.kb.games.monopoly.repositories;
 
-import com.kb.games.monopoly.model.Space;
+import com.kb.games.monopoly.model.spaces.Space;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
